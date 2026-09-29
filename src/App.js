@@ -18,7 +18,7 @@ export default function App() {
   };
 
   // Enterキーでの追加対応
-  const ß = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleAddTodo();
     }
