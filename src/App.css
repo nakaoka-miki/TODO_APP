@@ -1,38 +1,229 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* 全体のリセットと背景 */
+.todo-bg {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.todo-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ヘッダー */
+.todo-header {
+  text-align: center;
+  margin-bottom: 32px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.header-icon {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  margin-bottom: 12px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.todo-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.todo-header p {
+  margin: 4px 0 0 0;
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+/* ガラスモーフィズム風カード */
+.todo-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* 入力エリア */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-row input:focus {
+  border-color: #667eea;
+}
+
+.input-row input::placeholder {
+  color: #a0aec0;
+}
+
+.add-btn {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.add-btn:hover {
+  opacity: 0.9;
+}
+
+/* リストエリア */
+.todo-list {
+  min-height: 200px;
+}
+
+/* 空状態のスタイル */
+.empty-state {
+  text-align: center;
+  padding: 48px 0;
+  color: #a0aec0;
+}
+
+.empty-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.empty-subtitle {
+  font-size: 0.85rem;
+}
+
+/* 各タスクアイテム */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.todo-item:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 1.05rem;
+  color: #2d3748;
+  transition: all 0.2s;
+}
+
+.todo-text.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* カスタムチェックボックス */
+.checkbox-container {
+  display: block;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #fff;
+  border: 2px solid #667eea;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #667eea;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* 削除ボタン */
+.delete-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: rgba(244, 63, 94, 0.1);
+}
+
+/* フッター */
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #edf2f7;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+.completed-count {
+  color: #667eea;
+  font-weight: 600;
 }
